@@ -1,0 +1,16 @@
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\bin\Debug\MediaPlayerAnimations.exe.config
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\bin\Debug\MediaPlayerAnimations.exe
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\bin\Debug\MediaPlayerAnimations.pdb
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\MediaPlayerAnimations.csproj.AssemblyReference.cache
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\MediaPlayerAnimations.FrmMediaPlayer.resources
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\MediaPlayerAnimations.Properties.Resources.resources
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\MediaPlayerAnimations.csproj.GenerateResource.cache
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\MediaPlayerAnimations.csproj.CoreCompileInputs.cache
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\MediaPlayerAnimations.exe
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\MediaPlayerAnimations.pdb
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\MediaPlayerAnimations.exe.config
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\bin\Debug\Interop.WMPLib.dll
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\bin\Debug\AxInterop.WMPLib.dll
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\Interop.WMPLib.dll
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\AxInterop.WMPLib.dll
+C:\Users\Anthony\source\repos\MediaPlayerAnimations\MediaPlayerAnimations\obj\Debug\MediaPlayerAnimations.csproj.ResolveComReference.cache
