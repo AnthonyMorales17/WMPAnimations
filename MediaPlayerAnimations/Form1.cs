@@ -12,38 +12,34 @@ namespace MediaPlayerAnimations
 {
     public partial class FrmMediaPlayer : Form
     {
-        private CMediaPlayer reproductor;
-        private string ruta;
-        private bool pistaCargada = false;
-        private bool pistaIniciada = false;
+        private CMediaPlayer player;
+        private string[] tracks = new string[3];
+        private int trackIndex = 0;
+        private bool trackLoaded = false;
+        private bool trackStarted = false;
 
         public FrmMediaPlayer()
         {
             InitializeComponent();
-            ruta = "";
-            pistaCargada = false;
-            pistaIniciada = false;
             timer1.Interval = 1000; // Actualiza cada segundo
         }
 
         private void FrmMediaPlayer_Load(object sender, EventArgs e)
         {
-            reproductor = new CMediaPlayer(axWindowsMediaPlayer1, timerAnimacion, picCanvas);
+            player = new CMediaPlayer(axWindowsMediaPlayer1, timerAnimacion, picCanvas);
         }
-
-        int progreso = 0;
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            if (!pistaCargada) return;
+            if (!trackLoaded) return;
 
-            if (!pistaIniciada)
+            if (!trackStarted)
             {
-                reproductor.LoadTrack(ruta);
-                pistaIniciada = true;
+                player.LoadTrack(tracks[trackIndex], trackIndex);
+                trackStarted = true;
             }
 
-            reproductor.Play();
+            player.Play();
             timer1.Start();
         }
 
@@ -51,18 +47,18 @@ namespace MediaPlayerAnimations
         {
             try
             {
-                double duracion = axWindowsMediaPlayer1.currentMedia.duration;
-                double actual = axWindowsMediaPlayer1.Ctlcontrols.currentPosition;
+                double duration = axWindowsMediaPlayer1.currentMedia.duration;
+                double current = axWindowsMediaPlayer1.Ctlcontrols.currentPosition;
 
-                if (duracion > 0)
+                if (duration > 0)
                 {
-                    int progreso = (int)(actual / duracion * 100);
-                    pgBar.Value = Math.Min(progreso, 100);
+                    int progress = (int)(current / duration * 100);
+                    pgBar.Value = Math.Min(progress, 100);
 
-                    TimeSpan tiempoActual = TimeSpan.FromSeconds(actual);
-                    TimeSpan tiempoTotal = TimeSpan.FromSeconds(duracion);
+                    TimeSpan currentTime = TimeSpan.FromSeconds(current);
+                    TimeSpan totalTime = TimeSpan.FromSeconds(duration);
 
-                    lblTimer.Text = $"{tiempoActual:mm\\:ss} / {tiempoTotal:mm\\:ss}";
+                    lblTimer.Text = $"{currentTime:mm\\:ss} / {totalTime:mm\\:ss}";
                 }
             }
             catch
@@ -73,38 +69,65 @@ namespace MediaPlayerAnimations
 
         private void btnPause_Click(object sender, EventArgs e)
         {
-            reproductor.Pause();
+            player.Pause();
             timer1.Stop();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            reproductor.Stop();
-            pistaIniciada = false;
+            player.Stop();
             timer1.Stop();
+            trackStarted = false;
             pgBar.Value = 0;
             lblTimer.Text = "00:00 / 00:00";
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Esta función no está disponible con una sola pista.");
+            if (!trackLoaded) return;
+
+            trackIndex = (trackIndex - 1 + 3) % 3;
+            LoadCurrentTrack();
+            btnPlay.PerformClick();
         }
 
         private void btnForward_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Esta función no está disponible con una sola pista.");
+            if (!trackLoaded) return;
+
+            trackIndex = (trackIndex + 1) % 3;
+            LoadCurrentTrack();
+            btnPlay.PerformClick();
         }
 
         private void btnUpload_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            OpenFileDialog ofd = new OpenFileDialog
             {
-                ruta = openFileDialog1.FileName;
-                pistaCargada = true;
-                pistaIniciada = false;
-                pgBar.Value = 0;
+                Multiselect = true,
+                Filter = "Audio Files|*.mp3;*.wav"
+            };
+
+            if (ofd.ShowDialog() == DialogResult.OK && ofd.FileNames.Length > 0)
+            {
+                for (int i = 0; i < Math.Min(ofd.FileNames.Length, 3); i++)
+                {
+                    tracks[i] = ofd.FileNames[i];
+                }
+
+                trackIndex = 0;
+                LoadCurrentTrack();
+            }
+        }
+        private void LoadCurrentTrack()
+        {
+            if (!string.IsNullOrEmpty(tracks[trackIndex]))
+            {
+                player.LoadTrack(tracks[trackIndex], trackIndex); // Cargar con estilo según pista
+                trackLoaded = true;
+                trackStarted = false;
                 lblTimer.Text = "00:00 / 00:00";
+                pgBar.Value = 0;
             }
         }
     }

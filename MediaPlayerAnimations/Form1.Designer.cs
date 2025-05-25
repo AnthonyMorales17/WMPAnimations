@@ -57,6 +57,8 @@
             // 
             // pgBar
             // 
+            this.pgBar.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.pgBar.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.pgBar.Location = new System.Drawing.Point(9, 568);
             this.pgBar.Name = "pgBar";
             this.pgBar.Size = new System.Drawing.Size(910, 10);
@@ -67,19 +69,20 @@
             // btnBack
             // 
             this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBack.Image")));
-            this.btnBack.Location = new System.Drawing.Point(9, 588);
+            this.btnBack.Location = new System.Drawing.Point(12, 593);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(58, 58);
+            this.btnBack.Size = new System.Drawing.Size(58, 48);
             this.btnBack.TabIndex = 2;
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // btnStop
             // 
+            this.btnStop.FlatAppearance.BorderSize = 2;
             this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-            this.btnStop.Location = new System.Drawing.Point(73, 588);
+            this.btnStop.Location = new System.Drawing.Point(76, 589);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(58, 58);
+            this.btnStop.Size = new System.Drawing.Size(57, 57);
             this.btnStop.TabIndex = 3;
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
@@ -97,9 +100,9 @@
             // btnPause
             // 
             this.btnPause.Image = ((System.Drawing.Image)(resources.GetObject("btnPause.Image")));
-            this.btnPause.Location = new System.Drawing.Point(203, 588);
+            this.btnPause.Location = new System.Drawing.Point(203, 589);
             this.btnPause.Name = "btnPause";
-            this.btnPause.Size = new System.Drawing.Size(58, 58);
+            this.btnPause.Size = new System.Drawing.Size(57, 57);
             this.btnPause.TabIndex = 5;
             this.btnPause.UseVisualStyleBackColor = true;
             this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
@@ -107,9 +110,9 @@
             // btnForward
             // 
             this.btnForward.Image = ((System.Drawing.Image)(resources.GetObject("btnForward.Image")));
-            this.btnForward.Location = new System.Drawing.Point(267, 588);
+            this.btnForward.Location = new System.Drawing.Point(267, 593);
             this.btnForward.Name = "btnForward";
-            this.btnForward.Size = new System.Drawing.Size(58, 58);
+            this.btnForward.Size = new System.Drawing.Size(58, 48);
             this.btnForward.TabIndex = 6;
             this.btnForward.UseVisualStyleBackColor = true;
             this.btnForward.Click += new System.EventHandler(this.btnForward_Click);
@@ -117,7 +120,7 @@
             // btnUpload
             // 
             this.btnUpload.Image = ((System.Drawing.Image)(resources.GetObject("btnUpload.Image")));
-            this.btnUpload.Location = new System.Drawing.Point(921, 588);
+            this.btnUpload.Location = new System.Drawing.Point(931, 588);
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.Size = new System.Drawing.Size(58, 58);
             this.btnUpload.TabIndex = 7;
@@ -127,6 +130,7 @@
             // lblTimer
             // 
             this.lblTimer.AutoSize = true;
+            this.lblTimer.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.lblTimer.Location = new System.Drawing.Point(928, 567);
             this.lblTimer.Name = "lblTimer";
             this.lblTimer.Size = new System.Drawing.Size(34, 13);
@@ -159,6 +163,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1004, 650);
             this.Controls.Add(this.lblTimer);
             this.Controls.Add(this.btnUpload);
@@ -170,6 +175,7 @@
             this.Controls.Add(this.pgBar);
             this.Controls.Add(this.picCanvas);
             this.Controls.Add(this.axWindowsMediaPlayer1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMediaPlayer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Windows Media Player";

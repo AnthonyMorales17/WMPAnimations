@@ -11,42 +11,61 @@ namespace MediaPlayerAnimations
     class CMediaPlayer
     {
         private AxWMPLib.AxWindowsMediaPlayer player;
-        private Timer timerAnimation;
+        private Timer animationTimer;
         private int progress;
         private PictureBox canvas;
         private Pen pen = new Pen(Color.MediumVioletRed, 2);
         private int offset = 0;
+        private int style = 0;
 
-        public CMediaPlayer(AxWMPLib.AxWindowsMediaPlayer mediaPlayer, Timer timerAnimation, PictureBox canvas)
+        public CMediaPlayer(AxWMPLib.AxWindowsMediaPlayer mediaPlayer, Timer timer, PictureBox canvas)
         {
             this.player = mediaPlayer;
-            this.timerAnimation = timerAnimation;
+            this.animationTimer = timer;
             this.canvas = canvas;
 
-            this.timerAnimation.Tick += Timer_Tick;
+            this.animationTimer.Tick += Timer_Tick;
         }
 
-        public void LoadTrack(string ruta)
+        public void LoadTrack(string path, int styleIndex)
         {
-            player.URL = ruta;
+            player.URL = path;
+            SetStyle(styleIndex);
+        }
+
+        public void SetStyle(int styleIndex)
+        {
+            style = styleIndex;
+            switch (style)
+            {
+                case 0:
+                    pen = new Pen(Color.Cyan, 2);
+                    break;
+                case 1:
+                    pen = new Pen(Color.MediumVioletRed, 2);
+                    break;
+                case 2:
+                    pen = new Pen(Color.OrangeRed, 2);
+                    break;
+            }
         }
 
         public void Play()
         {
             player.Ctlcontrols.play();
-            timerAnimation.Start();
+            animationTimer.Start();
         }
 
         public void Pause()
         {
             player.Ctlcontrols.pause();
-            timerAnimation.Stop();
+            animationTimer.Stop();
         }
 
         public void Stop()
         {
             player.Ctlcontrols.stop();
-            timerAnimation.Stop();
+            animationTimer.Stop();
             canvas.Image?.Dispose();
             canvas.Image = null;
             progress = 0;
@@ -66,14 +85,17 @@ namespace MediaPlayerAnimations
                 int centerY = canvas.Height / 2;
                 int radius = Math.Min(canvas.Width, canvas.Height) / 2 - 10;
 
-                int angleStep = 15; // cada 15 grados (360 / 15 = 24 líneas)
-                for (int angle = 0; angle < 360; angle += angleStep)
+                switch (style)
                 {
-                    double radians = (angle + offset) * Math.PI / 180;
-                    int x = centerX + (int)(radius * Math.Cos(radians));
-                    int y = centerY + (int)(radius * Math.Sin(radians));
-
-                    g.DrawLine(pen, centerX, centerY, x, y);
+                    case 0:
+                        DrawLines(g, centerX, centerY, radius);
+                        break;
+                    case 1:
+                        DrawArcs(g, centerX, centerY, radius);
+                        break;
+                    case 2:
+                        DrawBezierCurves(g, centerX, centerY, radius);
+                        break;
                 }
             }
 
@@ -81,6 +103,39 @@ namespace MediaPlayerAnimations
             canvas.Image = bmp;
 
             offset += 3; 
+        }
+
+        private void DrawLines(Graphics g, int cx, int cy, int r)
+        {
+            for (int angle = 0; angle < 360; angle += 15)
+            {
+                double rad = (angle + offset) * Math.PI / 180;
+                int x = cx + (int)(r * Math.Cos(rad));
+                int y = cy + (int)(r * Math.Sin(rad));
+                g.DrawLine(pen, cx, cy, x, y);
+            }
+        }
+
+        private void DrawArcs(Graphics g, int cx, int cy, int r)
+        {
+            for (int i = 0; i < 360; i += 30)
+            {
+                double rad = (i + offset) * Math.PI / 180;
+                int x = cx + (int)(r * Math.Cos(rad));
+                int y = cy + (int)(r * Math.Sin(rad));
+                g.DrawArc(pen, x - 20, y - 20, 40, 40, 0, 180);
+            }
+        }
+
+        private void DrawBezierCurves(Graphics g, int cx, int cy, int r)
+        {
+            for (int i = 0; i < 360; i += 30)
+            {
+                double rad = (i + offset) * Math.PI / 180;
+                int x = cx + (int)(r * Math.Cos(rad));
+                int y = cy + (int)(r * Math.Sin(rad));
+                g.DrawBezier(pen, cx, cy, cx + 20, cy - 40, x - 20, y + 40, x, y);
+            }
         }
 
     }
