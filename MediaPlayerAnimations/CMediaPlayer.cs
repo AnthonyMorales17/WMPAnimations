@@ -17,6 +17,8 @@ namespace MediaPlayerAnimations
         private Pen pen = new Pen(Color.MediumVioletRed, 2);
         private int offset = 0;
         private int style = 0;
+        private int linesToDraw = 0; 
+        private const int totalLines = 36; 
 
         public CMediaPlayer(AxWMPLib.AxWindowsMediaPlayer mediaPlayer, Timer timer, PictureBox canvas)
         {
@@ -31,6 +33,9 @@ namespace MediaPlayerAnimations
         {
             player.URL = path;
             SetStyle(styleIndex);
+            offset = 0;
+            // Reiniciar líneas al parar
+            linesToDraw = 0;
         }
 
         public void SetStyle(int styleIndex)
@@ -70,6 +75,8 @@ namespace MediaPlayerAnimations
             canvas.Image = null;
             progress = 0;
             offset = 0;
+            // Reiniciar líneas al parar en el diseño 3.
+            linesToDraw = 0;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -91,10 +98,13 @@ namespace MediaPlayerAnimations
                         DrawLines(g, centerX, centerY, radius);
                         break;
                     case 1:
-                        DrawArcs(g, centerX, centerY, radius);
+                        DrawSinusoidalBars(g, centerX, (centerY + 290), radius);
                         break;
                     case 2:
-                        DrawBezierCurves(g, centerX, centerY, radius);
+                        if (linesToDraw < totalLines)
+                            linesToDraw++; // aumenta 1 línea por tick
+
+                        DrawAnimatedRadialLines(g, centerX, centerY, radius, linesToDraw);
                         break;
                 }
             }
@@ -116,25 +126,35 @@ namespace MediaPlayerAnimations
             }
         }
 
-        private void DrawArcs(Graphics g, int cx, int cy, int r)
+        private void DrawSinusoidalBars(Graphics g, int cx, int cy, int r)
         {
-            for (int i = 0; i < 360; i += 30)
+            int barCount = 60;
+            float barWidth = (float)canvas.Width / barCount;
+
+            for (int i = 0; i < barCount; i++)
             {
-                double rad = (i + offset) * Math.PI / 180;
-                int x = cx + (int)(r * Math.Cos(rad));
-                int y = cy + (int)(r * Math.Sin(rad));
-                g.DrawArc(pen, x - 20, y - 20, 40, 40, 0, 180);
+                float x = i * barWidth;
+                double angle = (i * 2 * Math.PI / barCount) + offset * 0.05;
+                float amplitude = (float)(Math.Cos(angle) * r * 1);
+                float y1 = cy;
+                float y2 = cy - Math.Abs(amplitude);
+
+                g.DrawLine(pen, x, y1, x, y2);
             }
         }
 
-        private void DrawBezierCurves(Graphics g, int cx, int cy, int r)
+        private void DrawAnimatedRadialLines(Graphics g, int cx, int cy, int r, int linesToDraw)
         {
-            for (int i = 0; i < 360; i += 30)
+            int totalLines = 36;
+
+            for (int i = 0; i < linesToDraw && i < totalLines; i++)
             {
-                double rad = (i + offset) * Math.PI / 180;
-                int x = cx + (int)(r * Math.Cos(rad));
-                int y = cy + (int)(r * Math.Sin(rad));
-                g.DrawBezier(pen, cx, cy, cx + 20, cy - 40, x - 20, y + 40, x, y);
+                double t = (i * 2 * Math.PI / totalLines) + offset * Math.PI / 180.0;
+
+                double x = r * Math.Pow(Math.Cos(t), 3);
+                double y = r * Math.Pow(Math.Sin(t), 3);
+
+                g.DrawLine(Pens.MediumPurple, cx, cy, cx + (int)x, cy + (int)y);
             }
         }
 

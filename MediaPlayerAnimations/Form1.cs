@@ -27,11 +27,16 @@ namespace MediaPlayerAnimations
         private void FrmMediaPlayer_Load(object sender, EventArgs e)
         {
             player = new CMediaPlayer(axWindowsMediaPlayer1, timerAnimacion, picCanvas);
+            axWindowsMediaPlayer1.PlayStateChange += axWindowsMediaPlayer1_PlayStateChange;
         }
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
-            if (!trackLoaded) return;
+            if (!trackLoaded)
+            {
+                MessageBox.Show("Debe cargar una pista antes de reproducir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             if (!trackStarted)
             {
@@ -80,23 +85,30 @@ namespace MediaPlayerAnimations
             trackStarted = false;
             pgBar.Value = 0;
             lblTimer.Text = "00:00 / 00:00";
+            lblTrackName.Text = "";
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
             if (!trackLoaded) return;
 
-            trackIndex = (trackIndex - 1 + 3) % 3;
+            trackIndex = (trackIndex - 1 + tracks.Length) % tracks.Length;
             LoadCurrentTrack();
+            UpdateNameTrack();
             btnPlay.PerformClick();
         }
 
         private void btnForward_Click(object sender, EventArgs e)
         {
-            if (!trackLoaded) return;
+            if (!trackLoaded)
+            {
+                MessageBox.Show("No hay pistas cargadas.");
+                return;
+            }
 
-            trackIndex = (trackIndex + 1) % 3;
+            trackIndex = (trackIndex + 1) % tracks.Length;
             LoadCurrentTrack();
+            UpdateNameTrack();
             btnPlay.PerformClick();
         }
 
@@ -110,13 +122,14 @@ namespace MediaPlayerAnimations
 
             if (ofd.ShowDialog() == DialogResult.OK && ofd.FileNames.Length > 0)
             {
-                for (int i = 0; i < Math.Min(ofd.FileNames.Length, 3); i++)
+                for (int i = 0; i < Math.Min(ofd.FileNames.Length, tracks.Length); i++)
                 {
                     tracks[i] = ofd.FileNames[i];
                 }
 
                 trackIndex = 0;
                 LoadCurrentTrack();
+                UpdateNameTrack();
             }
         }
         private void LoadCurrentTrack()
@@ -128,6 +141,43 @@ namespace MediaPlayerAnimations
                 trackStarted = false;
                 lblTimer.Text = "00:00 / 00:00";
                 pgBar.Value = 0;
+            }
+        }
+
+        private void UpdateNameTrack()
+        {
+            if (trackLoaded && !string.IsNullOrEmpty(tracks[trackIndex]))
+            {
+                string nameFile = System.IO.Path.GetFileName(tracks[trackIndex]);
+                lblTrackName.Text = $"{nameFile}";
+            }
+            else
+            {
+                lblTrackName.Text = "Ninguna pista cargada";
+            }
+        }
+
+        private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            // 8 = MediaEnded
+            if (e.newState == 8)
+            {
+                trackIndex = (trackIndex + 1) % tracks.Length;
+
+                // Verificamos si la siguiente pista está cargada
+                if (!string.IsNullOrEmpty(tracks[trackIndex]))
+                {
+                    //Se usa Invoke para asegurarse que los cambios se hagan en el hilo de la interfaz gràfica.
+                    Invoke(new Action(() =>
+                    {
+                        LoadCurrentTrack();
+                        UpdateNameTrack();
+                        // Reproducir automáticamente
+                        trackStarted = true;
+                        player.Play();
+                        timer1.Start();
+                    }));
+                }
             }
         }
     }

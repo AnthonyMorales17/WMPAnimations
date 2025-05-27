@@ -43,15 +43,16 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             this.timerAnimacion = new System.Windows.Forms.Timer(this.components);
+            this.lblTrackName = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
             // 
             // picCanvas
             // 
-            this.picCanvas.Location = new System.Drawing.Point(9, 14);
+            this.picCanvas.Location = new System.Drawing.Point(8, 14);
             this.picCanvas.Name = "picCanvas";
-            this.picCanvas.Size = new System.Drawing.Size(985, 550);
+            this.picCanvas.Size = new System.Drawing.Size(1350, 600);
             this.picCanvas.TabIndex = 0;
             this.picCanvas.TabStop = false;
             // 
@@ -59,9 +60,9 @@
             // 
             this.pgBar.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.pgBar.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.pgBar.Location = new System.Drawing.Point(9, 568);
+            this.pgBar.Location = new System.Drawing.Point(12, 622);
             this.pgBar.Name = "pgBar";
-            this.pgBar.Size = new System.Drawing.Size(910, 10);
+            this.pgBar.Size = new System.Drawing.Size(1230, 10);
             this.pgBar.Step = 1;
             this.pgBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.pgBar.TabIndex = 1;
@@ -69,7 +70,7 @@
             // btnBack
             // 
             this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBack.Image")));
-            this.btnBack.Location = new System.Drawing.Point(12, 593);
+            this.btnBack.Location = new System.Drawing.Point(13, 640);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(58, 48);
             this.btnBack.TabIndex = 2;
@@ -80,7 +81,7 @@
             // 
             this.btnStop.FlatAppearance.BorderSize = 2;
             this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-            this.btnStop.Location = new System.Drawing.Point(76, 589);
+            this.btnStop.Location = new System.Drawing.Point(77, 636);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(57, 57);
             this.btnStop.TabIndex = 3;
@@ -90,7 +91,7 @@
             // btnPlay
             // 
             this.btnPlay.Image = ((System.Drawing.Image)(resources.GetObject("btnPlay.Image")));
-            this.btnPlay.Location = new System.Drawing.Point(139, 588);
+            this.btnPlay.Location = new System.Drawing.Point(140, 635);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(58, 58);
             this.btnPlay.TabIndex = 4;
@@ -100,7 +101,7 @@
             // btnPause
             // 
             this.btnPause.Image = ((System.Drawing.Image)(resources.GetObject("btnPause.Image")));
-            this.btnPause.Location = new System.Drawing.Point(203, 589);
+            this.btnPause.Location = new System.Drawing.Point(204, 636);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(57, 57);
             this.btnPause.TabIndex = 5;
@@ -110,7 +111,7 @@
             // btnForward
             // 
             this.btnForward.Image = ((System.Drawing.Image)(resources.GetObject("btnForward.Image")));
-            this.btnForward.Location = new System.Drawing.Point(267, 593);
+            this.btnForward.Location = new System.Drawing.Point(268, 640);
             this.btnForward.Name = "btnForward";
             this.btnForward.Size = new System.Drawing.Size(58, 48);
             this.btnForward.TabIndex = 6;
@@ -120,7 +121,7 @@
             // btnUpload
             // 
             this.btnUpload.Image = ((System.Drawing.Image)(resources.GetObject("btnUpload.Image")));
-            this.btnUpload.Location = new System.Drawing.Point(931, 588);
+            this.btnUpload.Location = new System.Drawing.Point(1296, 634);
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.Size = new System.Drawing.Size(58, 58);
             this.btnUpload.TabIndex = 7;
@@ -130,10 +131,11 @@
             // lblTimer
             // 
             this.lblTimer.AutoSize = true;
-            this.lblTimer.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.lblTimer.Location = new System.Drawing.Point(928, 567);
+            this.lblTimer.Font = new System.Drawing.Font("Book Antiqua", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTimer.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblTimer.Location = new System.Drawing.Point(1249, 617);
             this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(34, 13);
+            this.lblTimer.Size = new System.Drawing.Size(45, 20);
             this.lblTimer.TabIndex = 8;
             this.lblTimer.Text = "00:00";
             // 
@@ -154,17 +156,29 @@
             this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
             this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(75, 23);
             this.axWindowsMediaPlayer1.TabIndex = 9;
+            this.axWindowsMediaPlayer1.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.axWindowsMediaPlayer1_PlayStateChange);
             // 
             // timerAnimacion
             // 
             this.timerAnimacion.Interval = 500;
             // 
+            // lblTrackName
+            // 
+            this.lblTrackName.AutoSize = true;
+            this.lblTrackName.Font = new System.Drawing.Font("Book Antiqua", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTrackName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblTrackName.Location = new System.Drawing.Point(347, 653);
+            this.lblTrackName.Name = "lblTrackName";
+            this.lblTrackName.Size = new System.Drawing.Size(0, 19);
+            this.lblTrackName.TabIndex = 10;
+            // 
             // FrmMediaPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(1004, 650);
+            this.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.ClientSize = new System.Drawing.Size(1366, 696);
+            this.Controls.Add(this.lblTrackName);
             this.Controls.Add(this.lblTimer);
             this.Controls.Add(this.btnUpload);
             this.Controls.Add(this.btnForward);
@@ -179,6 +193,7 @@
             this.Name = "FrmMediaPlayer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Windows Media Player";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FrmMediaPlayer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
@@ -202,6 +217,7 @@
         private System.Windows.Forms.Timer timer1;
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
         private System.Windows.Forms.Timer timerAnimacion;
+        private System.Windows.Forms.Label lblTrackName;
     }
 }
 
